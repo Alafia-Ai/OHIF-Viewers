@@ -1,6 +1,5 @@
 window.config = {
   routerBasename: '/',
-  // whiteLabeling: {},
   extensions: [],
   modes: [],
   customizationService: {
@@ -11,8 +10,8 @@ window.config = {
   // some windows systems have issues with more than 3 web workers
   maxNumberOfWebWorkers: 3,
   // below flag is for performance reasons, but it might not work for all servers
-  showWarningMessageForCrossOrigin: true,
-  showCPUFallbackMessage: true,
+  showWarningMessageForCrossOrigin: false,
+  showCPUFallbackMessage: false,
   showLoadingIndicator: true,
   strictZSpacingForVolumeViewport: true,
   maxNumRequests: {
@@ -100,25 +99,24 @@ window.config = {
     // Could use services manager here to bring up a dialog/modal if needed.
     console.warn('test, navigate to https://ohif.org/');
   },
-  // whiteLabeling: {
-  //   /* Optional: Should return a React component to be rendered in the "Logo" section of the application's Top Navigation bar */
-  //   createLogoComponentFn: function (React) {
-  //     return React.createElement(
-  //       'a',
-  //       {
-  //         target: '_self',
-  //         rel: 'noopener noreferrer',
-  //         className: 'text-purple-600 line-through',
-  //         href: '/',
-  //       },
-  //       React.createElement('img',
-  //         {
-  //           src: './assets/customLogo.svg',
-  //           className: 'w-8 h-8',
-  //         }
-  //       ))
-  //   },
-  // },
+  whiteLabeling: {
+    createLogoComponentFn: function (React) {
+      return React.createElement(
+        'a',
+        {
+          target: '_self',
+          rel: 'noopener noreferrer',
+          className: 'text-purple-600 line-through',
+          //href: 'https://alafia.ai',
+          href: '/',
+        },
+        React.createElement('img', {
+          src: './alafiaLogo.svg',
+          //className: 'w-8 h-8',
+        }),
+      );
+    },
+  },
   hotkeys: [
     {
       commandName: 'incrementActiveViewport',

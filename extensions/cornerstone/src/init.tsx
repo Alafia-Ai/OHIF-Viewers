@@ -84,25 +84,6 @@ export default async function init({
   window.extensionManager = extensionManager;
   window.commandsManager = commandsManager;
 
-  if (
-    appConfig.showWarningMessageForCrossOrigin &&
-    !window.crossOriginIsolated
-  ) {
-    uiNotificationService.show({
-      title: 'Cross Origin Isolation',
-      message:
-        'Cross Origin Isolation is not enabled, volume rendering will not work (e.g., MPR)',
-      type: 'warning',
-    });
-  }
-
-  if (
-    appConfig.showCPUFallbackMessage &&
-    cornerstone.getShouldUseCPURendering()
-  ) {
-    _showCPURenderingModal(uiModalService, hangingProtocolService);
-  }
-
   // Stores a map from `lutPresentationId` to a Presentation object so that
   // an OHIFCornerstoneViewport can be redisplayed with the same LUT
   stateSyncService.register('lutPresentationStore', { clearOnModeExit: true });
@@ -282,8 +263,9 @@ export default async function init({
   );
 
   viewportGridService.subscribe(
-    viewportGridService.EVENTS.ACTIVE_VIEWPORT_ID_CHANGED,
-    ({ viewportId }) => {
+    viewportGridService.EVENTS.ACTIVE_VIEWPORT_INDEX_CHANGED,
+    ({ viewportIndex, viewportId }) => {
+      viewportId = viewportId || `viewport-${viewportIndex}`;
       const toolGroup = toolGroupService.getToolGroupForViewport(viewportId);
 
       if (!toolGroup || !toolGroup._toolInstances?.['ReferenceLines']) {
